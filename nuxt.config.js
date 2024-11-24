@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'wecc',
+    title: '建築管理智慧雲平台',
     htmlAttrs: {
       lang: 'en'
     },
