@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="lg:max-w-[1110px] mx-auto text-white pb-36 pt-48 px-6 md:px-10 lg:px-0"
+		class="lg:max-w-[1110px] mx-auto text-white pb-36 pt-40 lg:pt-64 px-6 md:px-10 lg:px-0"
 	>
 		<h1 class="mb-5 tracking-[12px] text-5xl">建築管理智慧雲平台</h1>
 		<div class="text-lg">
