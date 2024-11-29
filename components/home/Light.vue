@@ -24,8 +24,8 @@
 					class="w-full cursor-pointer max-w-xs shadow-lg border border-white rounded-lg overflow-hidden"
 				>
 					<img
-						:src="item.image"
-						:alt="item.name"
+						:src="formatImg(item.buildingImage)"
+						:alt="item.buildingName"
 						class="w-full h-48 object-cover"
 					/>
 
@@ -33,12 +33,12 @@
 						<div
 							class="text-white w-fit absolute px-3 py-1 -top-3 left-4 text-sm bg-[#4788ff] rounded-3xl"
 						>
-							{{ item.type }}
+							{{ item.buildingType }}
 						</div>
 						<h3
 							class="text-xl hover:text-[#4788ff] font-medium text-gray-800 mt-3 mb-2"
 						>
-							{{ item.name }}
+							{{ item.buildingName }}
 						</h3>
 						<div class="text-[#4788ff] text-base hover:text-[#4788ff]/80">
 							Read More <font-awesome-icon :icon="['fas', 'chevron-right']" />
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { getIndexSmartLight } from "@/api/main";
 import { Carousel, Slide } from "vue-carousel";
 
 export default {
@@ -61,24 +62,40 @@ export default {
 			displayCount: 3,
 			list: [
 				{
-					name: "中央公園",
-					type: "捷運站",
-					image: "https://wecc.elfbar.tw/assets/images/case3.jpg",
+					buildingCode: "K0001",
+					buildingType: "政府機構",
+					buildingName: "高市府建管處辦公室",
+					buildingImage: "wwwroot\\assets\\images\\case5.jpg",
 				},
 				{
-					name: "高雄展覽館",
-					type: "展覽館",
-					image: "https://wecc.elfbar.tw/assets/images/case5.jpg",
+					buildingCode: "K0002",
+					buildingType: "展覽館",
+					buildingName: "高雄展覽館",
+					buildingImage: "wwwroot\\assets\\images\\case6.jpg",
 				},
 				{
-					name: "美麗島捷運站",
-					type: "捷運站",
-					image: "https://wecc.elfbar.tw/assets/images/case2.jpg",
+					buildingCode: "K0003",
+					buildingType: "捷運站",
+					buildingName: "美麗島捷運站",
+					buildingImage: "wwwroot\\assets\\images\\case2.jpg",
 				},
 				{
-					name: "高雄圖書館",
-					type: "圖書館",
-					image: "https://wecc.elfbar.tw/assets/images/case5.jpg",
+					buildingCode: "K0004",
+					buildingType: "捷運站",
+					buildingName: "中央公園站",
+					buildingImage: "wwwroot\\assets\\images\\case4.jpg",
+				},
+				{
+					buildingCode: "K0005",
+					buildingType: "展覽館",
+					buildingName: "高雄流行音樂中心",
+					buildingImage: "wwwroot\\assets\\images\\case3.jpg",
+				},
+				{
+					buildingCode: "K0006",
+					buildingType: "圖書建築",
+					buildingName: "高雄市立圖書總館",
+					buildingImage: "wwwroot\\assets\\images\\case1.jpg",
 				},
 			],
 		};
@@ -91,6 +108,7 @@ export default {
 		// 響應式調整顯示數量
 		this.updateDisplayCount();
 		window.addEventListener("resize", this.updateDisplayCount);
+		this.getData();
 	},
 	beforeDestroy() {
 		window.removeEventListener("resize", this.updateDisplayCount);
@@ -105,6 +123,21 @@ export default {
 			} else {
 				this.displayCount = 3; // 電腦
 			}
+		},
+		getData() {
+			getIndexSmartLight()
+				.then((res) => {
+					console.log(res);
+					this.list = res.data;
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		formatImg(url) {
+			const BaseUrl = "http://yang332904.synology.me:8080/";
+			url = url.replace("wwwroot\\", "").replace(/\\/g, "/");
+			return `${BaseUrl}/${url}`;
 		},
 	},
 };
