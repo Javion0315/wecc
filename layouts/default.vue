@@ -2,10 +2,10 @@
 	<div
 		class="bg-back bg-fixed min-h-screen bg-no-repeat bg-cover bg-center w-full bg-blend-multiply bg-black/60"
 	>
-		<Navbar />
+		<Navbar v-if="$route.name !== 'light-id' && $route.name !== 'supply-id'" />
 		<Nuxt />
-		<Footer />
-		<ToTop />
+		<Footer v-if="$route.name !== 'light-id' && $route.name !== 'supply-id'" />
+		<ToTop v-if="$route.name !== 'light-id' && $route.name !== 'supply-id'" />
 	</div>
 </template>
 

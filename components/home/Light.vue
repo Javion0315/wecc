@@ -21,7 +21,7 @@
 		>
 			<slide v-for="(item, index) in list" :key="index">
 				<div
-					class="w-full cursor-pointer max-w-xs shadow-lg border border-white rounded-lg overflow-hidden"
+					class="w-full max-w-xs shadow-lg border border-white rounded-lg overflow-hidden"
 				>
 					<img
 						:src="formatImg(item.buildingImage)"
@@ -29,7 +29,16 @@
 						class="w-full h-48 object-cover"
 					/>
 
-					<div class="p-4 bg-white relative">
+					<div
+						class="p-4 bg-white relative cursor-pointer"
+						@click="
+							$router.push({
+								name: 'light-id',
+								params: { id: item.buildingCode },
+							}),
+								saveImgName(formatImg(item.buildingImage), item.buildingName)
+						"
+					>
 						<div
 							class="text-white w-fit absolute px-3 py-1 -top-3 left-4 text-sm bg-[#4788ff] rounded-3xl"
 						>
@@ -60,44 +69,7 @@ export default {
 		return {
 			currentIndex: 0,
 			displayCount: 3,
-			list: [
-				{
-					buildingCode: "K0001",
-					buildingType: "政府機構",
-					buildingName: "高市府建管處辦公室",
-					buildingImage: "wwwroot\\assets\\images\\case5.jpg",
-				},
-				{
-					buildingCode: "K0002",
-					buildingType: "展覽館",
-					buildingName: "高雄展覽館",
-					buildingImage: "wwwroot\\assets\\images\\case6.jpg",
-				},
-				{
-					buildingCode: "K0003",
-					buildingType: "捷運站",
-					buildingName: "美麗島捷運站",
-					buildingImage: "wwwroot\\assets\\images\\case2.jpg",
-				},
-				{
-					buildingCode: "K0004",
-					buildingType: "捷運站",
-					buildingName: "中央公園站",
-					buildingImage: "wwwroot\\assets\\images\\case4.jpg",
-				},
-				{
-					buildingCode: "K0005",
-					buildingType: "展覽館",
-					buildingName: "高雄流行音樂中心",
-					buildingImage: "wwwroot\\assets\\images\\case3.jpg",
-				},
-				{
-					buildingCode: "K0006",
-					buildingType: "圖書建築",
-					buildingName: "高雄市立圖書總館",
-					buildingImage: "wwwroot\\assets\\images\\case1.jpg",
-				},
-			],
+			list: [],
 		};
 	},
 	components: {
@@ -127,7 +99,6 @@ export default {
 		getData() {
 			getIndexSmartLight()
 				.then((res) => {
-					console.log(res);
 					this.list = res.data;
 				})
 				.catch((error) => {
@@ -138,6 +109,10 @@ export default {
 			const BaseUrl = "http://yang332904.synology.me:8080/";
 			url = url.replace("wwwroot\\", "").replace(/\\/g, "/");
 			return `${BaseUrl}/${url}`;
+		},
+		saveImgName(url, name) {
+			localStorage.setItem("imgUrl", url);
+			localStorage.setItem("buildingName", name);
 		},
 	},
 };

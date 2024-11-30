@@ -22,6 +22,13 @@
 			<slide v-for="(item, index) in list" :key="index">
 				<div
 					class="w-full cursor-pointer max-w-xs md:max-w-[250px] shadow-lg rounded-lg overflow-hidden"
+					@click="
+						$router.push({
+							name: 'supply-id',
+							params: { id: item.buildingCode },
+						}),
+							saveImgName(formatImg(item.buildingImage), item.buildingName)
+					"
 				>
 					<img
 						:src="formatImg(item.buildingImage)"
@@ -51,89 +58,7 @@ export default {
 		return {
 			currentIndex: 0,
 			displayCount: 4,
-			list: [
-				{
-					buildingCode: "A1",
-					buildingName: "經濟部傳統產業創新加值中心",
-					buildingImage: "wwwroot\\assets\\images\\10.png",
-				},
-				{
-					buildingCode: "B1",
-					buildingName: "大樹區公所",
-					buildingImage: "wwwroot\\assets\\images\\9.png",
-				},
-				{
-					buildingCode: "C1",
-					buildingName: "國揚建設-微笑時代",
-					buildingImage: "wwwroot\\assets\\images\\11.png",
-				},
-				{
-					buildingCode: "80143001",
-					buildingName: "福興大樓",
-					buildingImage: "wwwroot\\assets\\images\\3.png",
-				},
-				{
-					buildingCode: "804712001",
-					buildingName: "皇苑建設人文首馥大廈",
-					buildingImage: "wwwroot\\assets\\images\\2.png",
-				},
-				{
-					buildingCode: "804309001",
-					buildingName: "遠見御苑大廈",
-					buildingImage: "wwwroot\\assets\\images\\1.png",
-				},
-				{
-					buildingCode: "80681001",
-					buildingName: "經濟部加工出口區管理處高雄分處",
-					buildingImage: "wwwroot\\assets\\images\\8.png",
-				},
-				{
-					buildingCode: "80794001",
-					buildingName: "國家音樂廳大廈",
-					buildingImage: "wwwroot\\assets\\images\\7.png",
-				},
-				{
-					buildingCode: "811480001",
-					buildingName: "樂活大廈",
-					buildingImage: "wwwroot\\assets\\images\\6.png",
-				},
-				{
-					buildingCode: "813445001",
-					buildingName: "三閱大樓",
-					buildingImage: "wwwroot\\assets\\images\\5.png",
-				},
-				{
-					buildingCode: "813028001",
-					buildingName: "多城建設-M+",
-					buildingImage: "wwwroot\\assets\\images\\12.png",
-				},
-				{
-					buildingCode: "830065001",
-					buildingName: "銳揚新天地",
-					buildingImage: "wwwroot\\assets\\images\\4.png",
-				},
-				{
-					buildingCode: "81167001",
-					buildingName: "漾City",
-					buildingImage: "wwwroot\\assets\\images\\dali-yang-city-2.jpg",
-				},
-				{
-					buildingCode: "80781001",
-					buildingName: "龍騰城堡",
-					buildingImage: "wwwroot\\assets\\images\\715227_674011.jpeg",
-				},
-				{
-					buildingCode: "83042001",
-					buildingName: "京城鳳翔",
-					buildingImage: "wwwroot\\assets\\images\\26676758_1_b.jpeg",
-				},
-				{
-					buildingCode: "81347001",
-					buildingName: "微風京品",
-					buildingImage:
-						"wwwroot\\assets\\images\\74463bcff8eb473fbec094233d6d2a06.jpg",
-				},
-			],
+			list: [],
 		};
 	},
 	components: {
@@ -163,7 +88,6 @@ export default {
 		getData() {
 			getIndexSmartSupply()
 				.then((res) => {
-					console.log(res);
 					this.list = res.data;
 				})
 				.catch((error) => {
@@ -174,6 +98,10 @@ export default {
 			const BaseUrl = "http://yang332904.synology.me:8080/";
 			url = url.replace("wwwroot\\", "").replace(/\\/g, "/");
 			return `${BaseUrl}/${url}`;
+		},
+		saveImgName(url, name) {
+			localStorage.setItem("supplyImgUrl", url);
+			localStorage.setItem("supplyName", name);
 		},
 	},
 };
