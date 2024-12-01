@@ -75,6 +75,25 @@ export function getSmartSupplyRainDayValue(BuildingCode) {
 export function getSmartSupplyFloodValue(BuildingCode) {
   return weccApi.get(`SmartSupplyFloodValue?BuildingCode=${BuildingCode}`);
 }
+
+// 數位水表 年度
+export function getSmartSupplyWaterYearValue(BuildingCode, year) {
+  return weccApi.get(`SmartSupplyWaterYearValue?BuildingCode=${BuildingCode}&Year=${year}`);
+}
+
+// 數位水表 月統計
+export function getSmartSupplyWaterMonthValue(BuildingCode, year, month) {
+  return weccApi.get(`SmartSupplyWaterMonthValue?BuildingCode=${BuildingCode}&Year=${year}&Month=${month}`);
+}
+
+// 數位水表 當日統計
+export function getSmartSupplyWaterDayValue(BuildingCode) {
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  return weccApi.get(`SmartSupplyWaterDayValue?BuildingCode=${BuildingCode}&Year=${year}&Month=${month}&Day=${day}`);
+}
 // 補助計畫 end ==========================================
 
 

@@ -26,6 +26,7 @@ export default {
   plugins: [
     "~/plugins/font-awesome",
     "~/plugins/carousel",
+    '~/plugins/highcharts.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

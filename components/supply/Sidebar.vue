@@ -105,6 +105,7 @@ export default {
 		getSelectData() {
 			getSmartSupplyIndexValue(this.$route.params.id).then((res) => {
 				let data = res.data;
+				this.$emit("can-show-chart", data[0]);
 				this.sideList.forEach((item) => {
 					if (item.value === "isHaveWater") {
 						item.show = data[0].isHaveWater;

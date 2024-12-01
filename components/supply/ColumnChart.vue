@@ -41,7 +41,10 @@ export default {
 	computed: {
 		chartOptions() {
 			let vm = this;
-			const categories = this.chartData.map((item) => item[this.xKey]);
+			const categories =
+				this.title === "淹水偵測"
+					? this.chartData.eventTime
+					: this.chartData.map((item) => item[this.xKey]);
 
 			return {
 				chart: {
@@ -120,7 +123,10 @@ export default {
 				series: [
 					{
 						name: vm.tooltip,
-						data: this.chartData.map((item) => item[this.yKey]),
+						data:
+							this.title === "淹水偵測"
+								? this.chartData.value.map(Number)
+								: this.chartData.map((item) => item[this.yKey]),
 					},
 				],
 

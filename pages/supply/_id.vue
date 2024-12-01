@@ -6,15 +6,36 @@
 			class="z-20 fixed inset-0 lg:relative lg:z-auto"
 			@close-sidebar="closeSidebar"
 			@get-device-value="selected = $event"
+			@can-show-chart="showChart = $event"
 		/>
 		<div class="lg:pl-[200px] min-h-screen">
 			<LightNavbar @open-sidebar="toggleSidebar" />
 			<div class="px-5 pb-6 pt-24 min-h-screen">
+				{{ showChart }}
 				<SupplyElectric
-					v-if="selected === 'all' || selected === 'isHaveElectric'"
+					v-if="
+						showChart.isHaveElectric &&
+						(selected === 'all' || selected === 'isHaveElectric')
+					"
 				/>
-				<SupplyRain v-if="selected === 'all' || selected === 'isHaveRain'" />
-				<SupplyFlood v-if="selected === 'all' || selected === 'isHaveFlood'" />
+				<SupplyRain
+					v-if="
+						showChart.isHaveRain &&
+						(selected === 'all' || selected === 'isHaveRain')
+					"
+				/>
+				<SupplyFlood
+					v-if="
+						showChart.isHaveFlood &&
+						(selected === 'all' || selected === 'isHaveFlood')
+					"
+				/>
+				<SupplyWater
+					v-if="
+						showChart.isHaveWater &&
+						(selected === 'all' || selected === 'isHaveWater')
+					"
+				/>
 			</div>
 			<LightFooter />
 		</div>
@@ -30,6 +51,7 @@ export default {
 			selected: "all",
 			buildingName: localStorage.getItem("supplyName"),
 			values: [],
+			showChart: {},
 		};
 	},
 	computed: {
