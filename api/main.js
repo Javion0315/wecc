@@ -33,17 +33,17 @@ export function getSmartSupplyIndexValue(BuildingCode) {
   return weccApi.get(`SmartSupplyIndexValue?BuildingCode=${BuildingCode}`);
 }
 
-// 年度
+// 數位電表 年度
 export function getSmartSupplyElectricYearValue(BuildingCode, year) {
   return weccApi.get(`SmartSupplyElectricYearValue?BuildingCode=${BuildingCode}&Year=${year}`);
 }
 
-// 月統計
+// 數位電表 月統計
 export function getSmartSupplyElectricMonthValue(BuildingCode, year, month) {
   return weccApi.get(`SmartSupplyElectricMonthValue?BuildingCode=${BuildingCode}&Year=${year}&Month=${month}`);
 }
 
-// 當日統計
+// 數位電表 當日統計
 export function getSmartSupplyElectricDayValue(BuildingCode) {
   let date = new Date();
   let year = date.getFullYear();
@@ -52,7 +52,29 @@ export function getSmartSupplyElectricDayValue(BuildingCode) {
   return weccApi.get(`SmartSupplyElectricDayValue?BuildingCode=${BuildingCode}&Year=${year}&Month=${month}&Day=${day}`);
 }
 
+// 雨水筏基水位監測 年度
+export function getSmartSupplyRainYearValue(BuildingCode, year) {
+  return weccApi.get(`SmartSupplyRainYearValue?BuildingCode=${BuildingCode}&Year=${year}`);
+}
 
+// 雨水筏基水位監測 月統計
+export function getSmartSupplyRainMonthValue(BuildingCode, year, month) {
+  return weccApi.get(`SmartSupplyRainMonthValue?BuildingCode=${BuildingCode}&Year=${year}&Month=${month}`);
+}
+
+// 雨水筏基水位監測 當日統計
+export function getSmartSupplyRainDayValue(BuildingCode) {
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  return weccApi.get(`SmartSupplyRainDayValue?BuildingCode=${BuildingCode}&Year=${year}&Month=${month}&Day=${day}`);
+}
+
+// 淹水偵測器
+export function getSmartSupplyFloodValue(BuildingCode) {
+  return weccApi.get(`SmartSupplyFloodValue?BuildingCode=${BuildingCode}`);
+}
 // 補助計畫 end ==========================================
 
 

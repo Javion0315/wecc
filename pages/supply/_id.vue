@@ -13,6 +13,8 @@
 				<SupplyElectric
 					v-if="selected === 'all' || selected === 'isHaveElectric'"
 				/>
+				<SupplyRain v-if="selected === 'all' || selected === 'isHaveRain'" />
+				<SupplyFlood v-if="selected === 'all' || selected === 'isHaveFlood'" />
 			</div>
 			<LightFooter />
 		</div>
