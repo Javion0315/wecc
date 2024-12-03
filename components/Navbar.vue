@@ -11,7 +11,7 @@
 			</div>
 			<div class="lg:flex justify-end items-center gap-6 hidden">
 				<a
-					class="py-2"
+					class="py-2 hover:text-primary-orange"
 					v-for="(nav, index) in navList"
 					:key="index"
 					:href="'#' + nav.url"
