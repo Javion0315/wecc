@@ -24,7 +24,33 @@
 					<h3 class="text-white text-center text-xl font-medium mt-4">
 						{{ buildingName }}
 					</h3>
-					<div class="text-[#4ff34f] text-center">Online</div>
+				</div>
+				<hr class="w-40 my-6 border border-gray-400" />
+				<div class="text-center text-gray-300 font-bold">
+					<div>
+						戶數：{{
+							sidebarInfo.roomAmount === "" ? 0 : sidebarInfo.roomAmount
+						}}
+						戶
+					</div>
+					<div>
+						人數：{{
+							sidebarInfo.peopleAmount === "" ? 0 : sidebarInfo.peopleAmount
+						}}
+						人
+					</div>
+					<div>
+						樓地板面積：{{
+							sidebarInfo.totalArea === "" ? "暫無" : sidebarInfo.totalArea
+						}}
+					</div>
+					<div>
+						契約容積：{{
+							sidebarInfo.contractCapacity === ""
+								? "暫無"
+								: sidebarInfo.contractCapacity
+						}}
+					</div>
 				</div>
 				<hr class="w-40 my-6 border border-gray-400" />
 				<div class="px-4 h-[calc(100vh-250px)] overflow-y-auto">
@@ -54,9 +80,13 @@
 </template>
 
 <script>
-import { getSmartSupplyIndexValue } from "@/api/main";
-
 export default {
+	props: {
+		sidebarInfo: {
+			type: Object,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			buildingImage: localStorage.getItem("supplyImgUrl"),
@@ -98,27 +128,25 @@ export default {
 			],
 		};
 	},
-	mounted() {
-		this.getSelectData();
-	},
-	methods: {
-		getSelectData() {
-			getSmartSupplyIndexValue(this.$route.params.id).then((res) => {
-				let data = res.data;
-				this.$emit("can-show-chart", data[0]);
+	watch: {
+		sidebarInfo: {
+			handler(val) {
 				this.sideList.forEach((item) => {
 					if (item.value === "isHaveWater") {
-						item.show = data[0].isHaveWater;
+						item.show = val.isHaveWater;
 					} else if (item.value === "isHaveElectric") {
-						item.show = data[0].isHaveElectric;
+						item.show = val.isHaveElectric;
 					} else if (item.value === "isHaveFlood") {
-						item.show = data[0].isHaveFlood;
+						item.show = val.isHaveFlood;
 					} else if (item.value === "isHaveRain") {
-						item.show = data[0].isHaveRain;
+						item.show = val.isHaveRain;
 					}
 				});
-			});
+			},
+			deep: true,
 		},
+	},
+	methods: {
 		selected(value) {
 			if (value === "back") {
 				this.$router.push({ name: "index" });

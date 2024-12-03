@@ -6,12 +6,11 @@
 			class="z-20 fixed inset-0 lg:relative lg:z-auto"
 			@close-sidebar="closeSidebar"
 			@get-device-value="selected = $event"
-			@can-show-chart="showChart = $event"
+			:sidebar-info="sidebarInfo"
 		/>
 		<div class="lg:pl-[200px] min-h-screen">
 			<LightNavbar @open-sidebar="toggleSidebar" />
 			<div class="px-5 pb-6 pt-24 min-h-screen">
-				{{ showChart }}
 				<SupplyElectric
 					v-if="
 						showChart.isHaveElectric &&
@@ -43,6 +42,8 @@
 </template>
 
 <script>
+import { getSmartSupplyIndexValue } from "@/api/main";
+
 export default {
 	data() {
 		return {
@@ -52,6 +53,7 @@ export default {
 			buildingName: localStorage.getItem("supplyName"),
 			values: [],
 			showChart: {},
+			sidebarInfo: {},
 		};
 	},
 	computed: {
@@ -69,10 +71,23 @@ export default {
 		closeSidebar() {
 			this.openSidebar = false;
 		},
+		getSelectData() {
+			this.isLoading = true;
+			getSmartSupplyIndexValue(this.$route.params.id)
+				.then((res) => {
+					let data = res.data;
+					this.showChart = data[0];
+					this.sidebarInfo = data[0];
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
+		},
 	},
 	mounted() {
 		window.addEventListener("resize", this.handleResize);
 		this.handleResize();
+		this.getSelectData();
 	},
 	beforeDestroy() {
 		window.removeEventListener("resize", this.handleResize);

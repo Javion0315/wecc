@@ -24,7 +24,6 @@
 					<h3 class="text-white text-center text-xl font-medium mt-4">
 						{{ buildingName }}
 					</h3>
-					<div class="text-[#4ff34f] text-center">Online</div>
 				</div>
 				<div>
 					<select v-model="selected" class="w-40 h-7 mt-4 rounded bg-white">
@@ -41,12 +40,12 @@
 				<div>
 					<div class="flex flex-col gap-4 mt-4">
 						<div
-							class="flex flex-col justify-center items-center hover:text-white hover:bg-blue-500/80 gap-4 p-7 rounded-lg cursor-pointer"
+							class="flex flex-col justify-center items-center hover:text-white lg:hover:bg-blue-500/80 gap-4 p-7 rounded-lg cursor-pointer"
 							v-for="(item, index) in sideList"
 							:key="index"
 							:class="
-								item.value === sideVale
-									? 'bg-blue-500/80 text-white'
+								item.value === 'all'
+									? 'lg:bg-blue-500/80 bg-blue-700 text-white'
 									: ' bg-black/45 text-gray-400'
 							"
 							@click="
@@ -68,24 +67,24 @@
 </template>
 
 <script>
-import { getSmartLightDevice } from "@/api/main";
-
 export default {
+	props: {
+		options: {
+			type: Array,
+			default: () => [],
+		},
+	},
 	data() {
 		return {
 			buildingImage: localStorage.getItem("imgUrl"),
 			buildingName: localStorage.getItem("buildingName"),
 			selected: "",
-			options: [],
 			sideVale: "all",
 			sideList: [
 				{ label: "資訊總覽", icon: ["fas", "gauge"], value: "all" },
 				{ label: "返回計畫首頁", icon: ["fas", "house"], value: "back" },
 			],
 		};
-	},
-	mounted() {
-		this.getSelectData();
 	},
 	watch: {
 		selected: {
@@ -94,13 +93,11 @@ export default {
 			},
 			immediate: true,
 		},
-	},
-	methods: {
-		getSelectData() {
-			getSmartLightDevice(this.$route.params.id).then((res) => {
-				this.options = res.data.map((item) => item.deviceSeq);
+		options: {
+			handler() {
 				this.selected = this.options[0];
-			});
+			},
+			immediate: true,
 		},
 	},
 };

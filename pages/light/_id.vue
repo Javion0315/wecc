@@ -6,6 +6,7 @@
 			class="z-20 fixed inset-0 lg:relative lg:z-auto"
 			@close-sidebar="closeSidebar"
 			@get-device-value="selected = $event"
+			:options="options"
 		/>
 		<div class="lg:pl-[200px] min-h-screen">
 			<LightNavbar @open-sidebar="toggleSidebar" />
@@ -19,7 +20,6 @@
 							class="bg-[#1e272e] rounded-lg px-16 py-2 text-center mt-4 lg:mt-0 w-fit"
 						>
 							<div class="text-3xl text-center">{{ buildingName }}</div>
-							<div class="text-[#4ff34f] text-center">Online</div>
 						</div>
 					</div>
 				</div>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { getSmartLightDeviceValue } from "@/api/main";
+import { getSmartLightDeviceValue, getSmartLightDevice } from "@/api/main";
 
 export default {
 	data() {
@@ -67,6 +67,7 @@ export default {
 				Iqa: "室內空氣品質",
 				Mold: "黴菌過敏原",
 			},
+			options: [],
 		};
 	},
 	computed: {
@@ -77,7 +78,7 @@ export default {
 	watch: {
 		selected: {
 			handler(val) {
-				this.getDeviceValue(val);
+				if (val !== undefined) this.getDeviceValue(val);
 			},
 		},
 	},
@@ -101,10 +102,22 @@ export default {
 					this.isLoading = false;
 				});
 		},
+		getSelectData() {
+			this.isLoading = true;
+			getSmartLightDevice(this.$route.params.id)
+				.then((res) => {
+					this.options = res.data.map((item) => item.deviceSeq);
+					this.selected = this.options[0];
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
+		},
 	},
 	mounted() {
 		window.addEventListener("resize", this.handleResize);
 		this.handleResize();
+		this.getSelectData();
 	},
 	beforeDestroy() {
 		window.removeEventListener("resize", this.handleResize);
