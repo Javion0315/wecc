@@ -2,13 +2,14 @@
 	<div class="lg:max-w-[1110px] mx-auto text-white py-36 px-6 md:px-10 lg:px-0">
 		<div class="flex justify-start items-center">
 			<div class="w-2 h-2 bg-primary-orange mr-4"></div>
-			<div class="text-white text-4xl font-bold">補助計畫</div>
+			<div class="text-white text-4xl font-bold">{{ title }}</div>
 			<div class="w-12 h-1 bg-primary-orange ml-4"></div>
 		</div>
 
-		<div class="mt-5 text-white text-lg font-semibold tracking-[2px] mb-10">
-			因應極端氣候變化可能帶來的災害，高雄市建築將以「節能、安全」作為發展方向，開辦「高雄厝智慧雲」補助，鼓勵民間公寓大廈或大型建築物設置雨水貯集滯洪設施、公共區域用電量觀測系統，推動建築「智慧化」，以鼓勵城市建築導入智慧防災節能科技，邁出數位治理的第一步。
-		</div>
+		<div
+			class="mt-5 text-white text-lg font-semibold tracking-[2px] mb-10"
+			v-html="editorContent"
+		></div>
 
 		<carousel
 			:per-page="displayCount"
@@ -49,7 +50,7 @@
 
 
 <script>
-import { getIndexSmartSupply } from "@/api/main";
+import { getIndexSmartSupply, getArticles } from "@/api/main";
 import { Carousel, Slide } from "vue-carousel";
 
 export default {
@@ -59,6 +60,8 @@ export default {
 			currentIndex: 0,
 			displayCount: 4,
 			list: [],
+			title: "",
+			editorContent: "",
 		};
 	},
 	components: {
@@ -86,6 +89,11 @@ export default {
 			}
 		},
 		getData() {
+			getArticles(4).then((res) => {
+				this.title = res.data.artileTitle;
+				this.editorContent = res.data.articleContent;
+			});
+
 			getIndexSmartSupply()
 				.then((res) => {
 					this.list = res.data;
@@ -95,9 +103,12 @@ export default {
 				});
 		},
 		formatImg(url) {
-			const BaseUrl = "http://yang332904.synology.me:8080/";
-			url = url.replace("wwwroot\\", "").replace(/\\/g, "/");
-			return `${BaseUrl}/${url}`;
+			// const BaseUrl = "http://yang332904.synology.me:8080/";
+			const BaseUrl = "https://wecc.elfbar.tw:8080/";
+			if (url) {
+				url = url.replace("wwwroot\\", "").replace(/\\/g, "/");
+				return `${BaseUrl}/${url}`;
+			}
 		},
 		saveImgName(url, name) {
 			localStorage.setItem("supplyImgUrl", url);

@@ -39,7 +39,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["nuxt-fontawesome", "nuxt-highcharts", "nuxt-sweetalert2"],
+  modules: ["nuxt-fontawesome", "nuxt-highcharts", "nuxt-sweetalert2", '@nuxtjs/proxy',],
 
   fontawesome: {
     component: "fa",
@@ -61,5 +61,15 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  proxy: {
+    '/api/': {
+      target: 'http://yang332904.synology.me:8080/', // 目標 API 的網址
+      secure: false, // 是否使用 HTTPS
+      changeOrigin: true, // 允許跨域
+      pathRewrite: { '': '' }, // 將前綴移除
+      ws: true // 支援 WebSocket
+    }
   }
 }

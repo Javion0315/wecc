@@ -2,13 +2,14 @@
 	<div class="lg:max-w-[1110px] mx-auto text-white py-36 px-6 md:px-10 lg:px-0">
 		<div class="flex justify-start items-center">
 			<div class="w-2 h-2 bg-primary-orange mr-4"></div>
-			<div class="text-white text-4xl font-bold">亮點計畫</div>
+			<div class="text-white text-4xl font-bold">{{ title }}</div>
 			<div class="w-12 h-1 bg-primary-orange ml-4"></div>
 		</div>
 
-		<div class="mt-5 text-white text-lg font-semibold tracking-[2px] mb-10">
-			高市府推動「智慧建築—空氣品質偵測系統」，目標鎖定改善空汙及推廣垂直綠化，即時偵測家中空氣品質，透過適度換氣、過濾，減緩病毒滋生。藉由感知器，隨時監測室內空氣中的10種汙染源，除了常見的二氧化碳、一氧化碳之外，也能監測室內空氣中的PM2.5細懸浮微粒、PM10懸浮微粒、TVOC揮發性有機物、溫度、濕度、甲醛、黴菌、室外綜合指數，並與空氣清淨設備如空氣清淨機、新風機等連動，一偵測到室內空氣品質變化就會啟動。
-		</div>
+		<div
+			class="mt-5 text-white text-lg font-semibold tracking-[2px] mb-10"
+			v-html="editorContent"
+		></div>
 
 		<carousel
 			:per-page="displayCount"
@@ -60,7 +61,7 @@
 </template>
 
 <script>
-import { getIndexSmartLight } from "@/api/main";
+import { getIndexSmartLight, getArticles } from "@/api/main";
 import { Carousel, Slide } from "vue-carousel";
 
 export default {
@@ -70,6 +71,8 @@ export default {
 			currentIndex: 0,
 			displayCount: 3,
 			list: [],
+			title: "",
+			editorContent: "",
 		};
 	},
 	components: {
@@ -97,6 +100,11 @@ export default {
 			}
 		},
 		getData() {
+			getArticles(3).then((res) => {
+				this.title = res.data.artileTitle;
+				this.editorContent = res.data.articleContent;
+			});
+
 			getIndexSmartLight()
 				.then((res) => {
 					this.list = res.data;
@@ -106,9 +114,12 @@ export default {
 				});
 		},
 		formatImg(url) {
-			const BaseUrl = "http://yang332904.synology.me:8080/";
-			url = url.replace("wwwroot\\", "").replace(/\\/g, "/");
-			return `${BaseUrl}/${url}`;
+			// const BaseUrl = "http://yang332904.synology.me:8080/";
+			const BaseUrl = "https://wecc.elfbar.tw:8080/";
+			if (url) {
+				url = url.replace("wwwroot\\", "").replace(/\\/g, "/");
+				return `${BaseUrl}/${url}`;
+			}
 		},
 		saveImgName(url, name) {
 			localStorage.setItem("imgUrl", url);

@@ -49,13 +49,22 @@ export default {
 	},
 	computed: {
 		electricity() {
-			return this.chartData.find((item) => item.typeName === "Electricity");
+			if (Array.isArray(this.chartData) && this.chartData.length !== 0) {
+				return this.chartData.find((item) => item.typeName === "Electricity");
+			}
+			return null;
 		},
 		water() {
-			return this.chartData.find((item) => item.typeName === "Water");
+			if (Array.isArray(this.chartData) && this.chartData.length !== 0) {
+				return this.chartData.find((item) => item.typeName === "Water");
+			}
+			return null;
 		},
 		rain() {
-			return this.chartData.find((item) => item.typeName === "Rain");
+			if (Array.isArray(this.chartData) && this.chartData.length !== 0) {
+				return this.chartData.find((item) => item.typeName === "Rain");
+			}
+			return null;
 		},
 	},
 	mounted() {
