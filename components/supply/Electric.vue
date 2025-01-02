@@ -22,10 +22,10 @@
 
 				<SupplyColumnChart
 					:chart-data="yearList"
-					tooltip="發電量"
+					tooltip="用電量"
 					title="年度統計"
 					xLabel="月份"
-					yLabel="發電量(kwh)"
+					yLabel="用電量(kwh)"
 					xKey="month"
 					yKey="totalValue"
 				/>
@@ -65,7 +65,7 @@
 
 				<SupplyColumnChart
 					:chart-data="monthList"
-					tooltip="發電量"
+					tooltip="用電量"
 					title="按月統計"
 					xLabel=""
 					yLabel=""
@@ -78,7 +78,7 @@
 				<div class="flex justify-end items-center pb-5 mb-9"></div>
 				<SupplyColumnChart
 					:chart-data="dayList"
-					tooltip="發電量"
+					tooltip="用電量"
 					title="當日統計"
 					xLabel="Hour"
 					yLabel=""
@@ -104,11 +104,7 @@ export default {
 		return {
 			isLoading: false,
 			yearList: [],
-			yearOptions: [
-				{ label: "2024年", value: "2024" },
-				{ label: "2023年", value: "2023" },
-				{ label: "2022年", value: "2022" },
-			],
+			yearOptions: [],
 			yearSelected: new Date().getFullYear(),
 			monthList: [],
 			monthYear: new Date().getFullYear(),
@@ -126,6 +122,13 @@ export default {
 		this.getYearValue();
 		this.getMonthValue();
 		this.getDayValue();
+		const currentYear = new Date().getFullYear();
+		for (let i = currentYear; i >= 2022; i--) {
+			this.yearOptions.push({
+				label: `${i}年`,
+				value: i.toString(),
+			});
+		}
 	},
 	methods: {
 		getYearValue() {

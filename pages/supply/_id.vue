@@ -49,7 +49,7 @@ export default {
 		return {
 			isLoading: false,
 			openSidebar: false,
-			selected: "all",
+			selected: "",
 			buildingName: localStorage.getItem("supplyName"),
 			values: [],
 			showChart: {},
@@ -76,8 +76,19 @@ export default {
 			getSmartSupplyIndexValue(this.$route.params.id)
 				.then((res) => {
 					let data = res.data;
-					this.showChart = data[0];
-					this.sidebarInfo = data[0];
+					if (data.length === 0) {
+						this.$swal
+							.fire({
+								title: "查無資料",
+								type: "error",
+							})
+							.then(() => {
+								this.$router.push({ path: "/" });
+							});
+					} else {
+						this.showChart = data[0];
+						this.sidebarInfo = data[0];
+					}
 				})
 				.finally(() => {
 					this.isLoading = false;

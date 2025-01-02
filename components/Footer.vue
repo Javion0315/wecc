@@ -15,7 +15,7 @@
 			</span>
 		</div>
 		<div class="mt-2 lg:mt-0">
-			Copyright 2023
+			Copyright {{ currentYear }}
 			<span class="text-primary-orange mx-2"> 高雄市政府工務局 </span> All
 			Rights Reserved.
 		</div>
@@ -24,6 +24,11 @@
 
 <script>
 export default {
+	data() {
+		return {
+			currentYear: "",
+		};
+	},
 	methods: {
 		scrollToTop() {
 			window.scrollTo({
@@ -31,6 +36,9 @@ export default {
 				behavior: "smooth",
 			});
 		},
+	},
+	mounted() {
+		this.currentYear = new Date().getFullYear();
 	},
 };
 </script>

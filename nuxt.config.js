@@ -1,7 +1,7 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
-
+  target: 'static',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: '建築管理智慧雲平台',
@@ -65,7 +65,7 @@ export default {
 
   proxy: {
     '/api/': {
-      target: 'http://yang332904.synology.me:8080/', // 目標 API 的網址
+      target: 'https://wecc.elfbar.tw:8080/', // 目標 API 的網址
       secure: false, // 是否使用 HTTPS
       changeOrigin: true, // 允許跨域
       pathRewrite: { '': '' }, // 將前綴移除

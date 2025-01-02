@@ -104,11 +104,7 @@ export default {
 		return {
 			isLoading: false,
 			yearList: [],
-			yearOptions: [
-				{ label: "2024年", value: "2024" },
-				{ label: "2023年", value: "2023" },
-				{ label: "2022年", value: "2022" },
-			],
+			yearOptions: [],
 			yearSelected: new Date().getFullYear(),
 			monthList: [],
 			monthYear: new Date().getFullYear(),
@@ -126,6 +122,13 @@ export default {
 		this.getYearValue();
 		this.getMonthValue();
 		this.getDayValue();
+		const currentYear = new Date().getFullYear();
+		for (let i = currentYear; i >= 2022; i--) {
+			this.yearOptions.push({
+				label: `${i}年`,
+				value: i.toString(),
+			});
+		}
 	},
 	methods: {
 		getYearValue() {

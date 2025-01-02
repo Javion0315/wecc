@@ -90,11 +90,11 @@ export default {
 	data() {
 		return {
 			buildingImage: localStorage.getItem("supplyImgUrl"),
-			buildingName: localStorage.getItem("supplyName"),
+			buildingName: "",
 			options: [],
-			sideValue: "all",
+			sideValue: "",
 			sideList: [
-				{ label: "資訊總覽", icon: ["fas", "gauge"], value: "all", show: true },
+				// { label: "資訊總覽", icon: ["fas", "gauge"], value: "all", show: true },
 				{
 					label: "數位水表",
 					icon: ["fas", "droplet"],
@@ -142,6 +142,9 @@ export default {
 						item.show = val.isHaveRain;
 					}
 				});
+				this.buildingName = val.buildingName;
+				this.sideValue = this.sideList.find((item) => item.show).value;
+				this.$emit("get-device-value", this.sideValue);
 			},
 			deep: true,
 		},

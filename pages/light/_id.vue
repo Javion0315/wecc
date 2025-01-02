@@ -110,7 +110,9 @@ export default {
 					this.selected = this.options[0];
 				})
 				.finally(() => {
-					this.isLoading = false;
+					setTimeout(() => {
+						this.isLoading = false;
+					}, 2000);
 				});
 		},
 	},
